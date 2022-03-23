@@ -1,0 +1,34 @@
+# External cannot access directory
+# Permission
+Options -Indexes
+
+RewriteEngine on
+
+# origin and path
+# NC - Case insensitive
+RewriteRule ^edu-test$ ./index.php [NC]
+
+# 301 - Redirect means that the page has permanently moved to a new location. 
+# 302 - Redirect means that the move is only temporary.
+
+RewriteRule test-google https://www.google.com [NC,R=302]
+
+RewriteRule ^panel/?$ ./index.php [NC]
+
+#Creating groups
+# http://localhost/htaccess/panel/product/edit
+RewriteRule ^panel/([a-z0-9]+)/?$ ./admin.php?module=$1 [NC]
+
+# /? = You can use the slash
+# QSA means that if there's a query string passed with the original URL
+
+RewriteRule ^panel/([a-z0-9]+)/([a-z0-9]+)/?$ ./admin.php?module=$1&action=$2 [NC,QSA]
+
+# RewriteCond %{REQUEST_FILENAME} !-f. RewriteCond means a condition must be true in order for the next RewriteRule to be # processed. % {REQUEST_FILENAME} is a variable set by the server to contain the request URL, not just a filename as it may appear.
+
+# Variable and operator
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ ./router.php
+
+
